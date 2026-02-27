@@ -104,7 +104,7 @@ Adaptive Assessment Platform
 
 <div class="box">
 
-<div id="timer">Time Left: 20s</div>
+<div id="timer">Time Left: 15s</div>
 
 <h3 id="qno"></h3>
 
@@ -167,12 +167,12 @@ var answers=[];
 var submitted=false;
 
 var timer;
-var timeLeft = 20; // seconds per question
+var timeLeft = 15; // seconds per question
 
 loadQuestion();
 
 function startTimer(){
-    timeLeft = 20;
+    timeLeft = 15;
     document.getElementById("timer").innerText = "Time Left: " + timeLeft + "s";
     clearInterval(timer);
     timer = setInterval(function(){
