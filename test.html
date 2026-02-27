@@ -4,7 +4,6 @@
 <title>Adaptive Assessment Test</title>
 
 <style>
-
 body{
 margin:0;
 font-family:Arial;
@@ -91,7 +90,6 @@ font-weight:bold;
 .submitted{
 color:green;
 }
-
 </style>
 
 </head>
@@ -121,9 +119,8 @@ Adaptive Assessment Platform
 
 <script>
 
-/* ================= 30 QUESTIONS ================= */
+/* ================= 10 QUESTIONS ================= */
 var questions=[
-// Easy 1–10
 {q:"What does CPU stand for?",options:["Central Processing Unit","Computer Processing Unit","Control Unit","Central Program Unit"],answer:"Central Processing Unit"},
 {q:"Which language is used for web pages?",options:["HTML","C","Python","Java"],answer:"HTML"},
 {q:"Which is an Operating System?",options:["Windows","HTML","Python","CSS"],answer:"Windows"},
@@ -133,29 +130,7 @@ var questions=[
 {q:"Which is a programming language?",options:["Python","HTML","CSS","Photoshop"],answer:"Python"},
 {q:"Which is a browser?",options:["Chrome","CPU","RAM","SSD"],answer:"Chrome"},
 {q:"Which is volatile memory?",options:["RAM","Hard Disk","ROM","DVD"],answer:"RAM"},
-{q:"Which is used for styling web pages?",options:["CSS","HTML","Python","Java"],answer:"CSS"},
-// Medium 11–20
-{q:"Which data structure uses FIFO?",options:["Queue","Stack","Tree","Graph"],answer:"Queue"},
-{q:"Which data structure uses LIFO?",options:["Stack","Queue","Array","Graph"],answer:"Stack"},
-{q:"Which SQL command retrieves data?",options:["SELECT","GET","OPEN","FETCH"],answer:"SELECT"},
-{q:"Which protocol is used for web browsing?",options:["HTTP","FTP","SMTP","TCP"],answer:"HTTP"},
-{q:"Which loop executes at least once?",options:["do while","for","while","none"],answer:"do while"},
-{q:"Which is relational database?",options:["MySQL","MongoDB","JSON","File"],answer:"MySQL"},
-{q:"Which layer handles routing?",options:["Network layer","Transport layer","Application layer","Physical layer"],answer:"Network layer"},
-{q:"Which is frontend technology?",options:["HTML","Python","Java","C"],answer:"HTML"},
-{q:"Which scheduling algorithm is fastest?",options:["SJF","FCFS","FIFO","Round Robin"],answer:"SJF"},
-{q:"Which is example of compiler?",options:["GCC","Chrome","MySQL","Windows"],answer:"GCC"},
-// Hard 21–30
-{q:"Time complexity of Binary Search?",options:["O(log n)","O(n)","O(n²)","O(1)"],answer:"O(log n)"},
-{q:"Worst case of Quick Sort?",options:["O(n²)","O(n log n)","O(log n)","O(n)"],answer:"O(n²)"},
-{q:"Which normal form removes transitive dependency?",options:["3NF","1NF","2NF","BCNF"],answer:"3NF"},
-{q:"Deadlock occurs when?",options:["All of these","Mutual exclusion","Hold and wait","No preemption"],answer:"All of these"},
-{q:"Which memory is fastest?",options:["Cache","RAM","Hard Disk","ROM"],answer:"Cache"},
-{q:"Which traversal gives sorted output in BST?",options:["Inorder","Preorder","Postorder","Level"],answer:"Inorder"},
-{q:"Which protocol is connection oriented?",options:["TCP","UDP","HTTP","FTP"],answer:"TCP"},
-{q:"Which data structure is used in recursion?",options:["Stack","Queue","Array","Tree"],answer:"Stack"},
-{q:"Which key uniquely identifies record?",options:["Primary key","Foreign key","Candidate key","Super key"],answer:"Primary key"},
-{q:"Which algorithm uses divide and conquer?",options:["Merge Sort","Bubble Sort","Selection Sort","Insertion Sort"],answer:"Merge Sort"}
+{q:"Which is used for styling web pages?",options:["CSS","HTML","Python","Java"],answer:"CSS"}
 ];
 
 questions.sort(()=>Math.random()-0.5);
@@ -180,7 +155,6 @@ function startTimer(){
         document.getElementById("timer").innerText = "Time Left: " + timeLeft + "s";
         if(timeLeft <=0){
             clearInterval(timer);
-            // Directly go next question
             nextQuestion(true); // true = time up
         }
     },1000);
@@ -193,7 +167,7 @@ function loadQuestion(){
     document.getElementById("nextBtn").disabled=true;
     document.getElementById("status").innerHTML="";
     var q=questions[index];
-    document.getElementById("qno").innerHTML="Question "+(index+1)+" of 30";
+    document.getElementById("qno").innerHTML="Question "+(index+1)+" of 10";
     document.getElementById("question").innerHTML=(index+1)+". "+q.q;
     var html="";
     q.options.forEach(function(opt){
@@ -227,17 +201,16 @@ function submitAnswer(){
     document.getElementById("nextBtn").disabled=false;
 }
 
-// Updated nextQuestion
 function nextQuestion(timeUp=false){
     if(!timeUp){
-        // If user submitted, increment score already handled
+        // If user submitted, score already handled
     } else {
         // Time up → record "No Answer"
         answers.push({question:questions[index].q,selected:"No Answer",correct:questions[index].answer});
     }
 
     index++;
-    if(index>=30){
+    if(index>=10){
         localStorage.setItem("score",score);
         localStorage.setItem("answers",JSON.stringify(answers));
         window.location="result.html";
