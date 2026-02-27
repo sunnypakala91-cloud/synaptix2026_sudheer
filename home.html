@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Adaptive Assessment - Overview</title>
+<style>
+body{
+  margin:0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg,#667eea,#764ba2);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+}
+.container{
+  background:white;
+  width:700px;
+  padding:40px;
+  border-radius:20px;
+  box-shadow:0 20px 40px rgba(0,0,0,0.2);
+  animation:fadeIn 0.8s ease;
+}
+h1{
+  text-align:center;
+  color:#667eea;
+  margin-bottom:30px;
+}
+.step{
+  margin:15px 0;
+  padding:15px;
+  background:#f4f6ff;
+  border-left:5px solid #667eea;
+  border-radius:10px;
+}
+button{
+  display:block;
+  margin:30px auto 0;
+  padding:12px 25px;
+  border:none;
+  border-radius:10px;
+  background:#48bb78;
+  color:white;
+  font-size:16px;
+  cursor:pointer;
+  transition:0.3s;
+}
+button:hover{
+  transform:scale(1.05);
+}
+@keyframes fadeIn{
+  from{opacity:0; transform:translateY(20px);}
+  to{opacity:1; transform:translateY(0);}
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Adaptive Assessment Platform</h1>
+
+  <div class="step">
+    🏗 <b>Step 1 – Planning</b><br>
+    We designed an adaptive quiz system that generates unique questions dynamically for each student.
+  </div>
+
+  <div class="step">
+    💻 <b>Step 2 – Technologies Used</b><br>
+    HTML for structure, CSS for UI design, JavaScript for logic, and localStorage for storing answers and scores.
+  </div>
+
+  <div class="step">
+    🎯 <b>Step 3 – Question Engine</b><br>
+    Questions are shuffled and randomized. Each session is unique to ensure fair assessment.
+  </div>
+
+  <div class="step">
+    ⏳ <b>Step 4 – Timer & Validation</b><br>
+    Each question has a 15-second timer. Submission is validated before proceeding to next question.
+  </div>
+
+  <div class="step">
+    📊 <b>Step 5 – Result Processing</b><br>
+    Score is calculated, correct answers displayed, with explanations split into 2 lines for clarity.
+  </div>
+
+  <button onclick="startQuiz()">Enter</button>
+</div>
+
+<script>
+function startQuiz(){
+  // Redirect to login page or quiz page directly
+  window.location="index.html"; // replace with your login page filename
+}
+</script>
+
+</body>
+</html>
