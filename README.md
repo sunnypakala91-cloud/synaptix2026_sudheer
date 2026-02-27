@@ -1,1 +1,1 @@
-# synaptix2026_sudheer
+Develop an Adaptive Online Assessment Platform that dynamically adjusts question difficulty in real time based on student responses and performance patterns. system should generate a personalized competency profile at the end assessment, highlighting strengths, weaknesses, and mastery levels across topics.
