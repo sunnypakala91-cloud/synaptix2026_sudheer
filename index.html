@@ -1,91 +1,198 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Adaptive Assessment</title>
+<title>Online Adaptive Assessment</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Inter:wght@300;500;600&display=swap" rel="stylesheet">
 
 <style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Inter',sans-serif;
+}
 
 body{
-    margin:0;
-    font-family:Arial;
-    background: linear-gradient(135deg,#667eea,#764ba2);
-    height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    color:white;
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:linear-gradient(135deg,#0f0c29,#302b63,#24243e);
+overflow:hidden;
 }
 
-.box{
-    background:white;
-    color:black;
-    padding:30px;
-    border-radius:15px;
-    width:320px;
-    text-align:center;
-    box-shadow:0 10px 25px rgba(0,0,0,0.3);
+body::before{
+content:"";
+position:absolute;
+width:600px;
+height:600px;
+background:radial-gradient(circle,#00f7ff55,transparent);
+top:-200px;
+left:-200px;
+animation:moveGlow 8s infinite alternate;
 }
 
-h1{
-    margin-bottom:10px;
-    color:#667eea;
+body::after{
+content:"";
+position:absolute;
+width:500px;
+height:500px;
+background:radial-gradient(circle,#ff00cc55,transparent);
+bottom:-200px;
+right:-200px;
+animation:moveGlow 10s infinite alternate-reverse;
+}
+
+@keyframes moveGlow{
+from{transform:translate(0,0);}
+to{transform:translate(80px,80px);}
+}
+
+.card{
+position:relative;
+z-index:10;
+width:500px;
+padding:50px;
+background:rgba(255,255,255,0.05);
+backdrop-filter:blur(30px);
+border-radius:30px;
+box-shadow:0 0 60px rgba(0,255,255,0.2);
+color:white;
+text-align:center;
+}
+
+.title{
+font-family:'Orbitron',sans-serif;
+font-size:20px;
+letter-spacing:2px;
+margin-bottom:30px;
+color:#00f7ff;
+text-shadow:0 0 15px #00f7ff;
+}
+
+.input-group{
+margin-bottom:25px;
+position:relative;
+}
+
+.input-group span{
+position:absolute;
+left:15px;
+top:50%;
+transform:translateY(-50%);
+font-size:16px;
+opacity:0.7;
 }
 
 input{
-    width:100%;
-    padding:12px;
-    margin:10px 0;
-    border-radius:8px;
-    border:1px solid gray;
+width:100%;
+padding:14px 14px 14px 40px;
+border:none;
+border-radius:15px;
+background:rgba(255,255,255,0.1);
+color:white;
+font-size:14px;
+outline:none;
+transition:0.3s;
+}
+
+input:focus{
+box-shadow:0 0 20px #00f7ff;
+transform:scale(1.03);
 }
 
 button{
-    width:100%;
-    padding:12px;
-    background:#667eea;
-    color:white;
-    border:none;
-    border-radius:8px;
-    font-size:16px;
-    cursor:pointer;
+margin-top:20px;
+width:100%;
+padding:15px;
+border:none;
+border-radius:30px;
+background:linear-gradient(45deg,#00f7ff,#ff00cc);
+color:white;
+font-size:16px;
+font-weight:600;
+cursor:pointer;
+transition:0.3s;
+display:flex;
+justify-content:center;
+align-items:center;
+gap:10px;
 }
 
 button:hover{
-    background:#5a67d8;
+transform:scale(1.07);
+box-shadow:0 0 30px #ff00cc;
 }
 
+.footer{
+margin-top:20px;
+font-size:11px;
+opacity:0.6;
+}
 </style>
-
 </head>
 
 <body>
 
-<div class="box">
+<div class="card">
 
-<h1>Adaptive Assessment</h1>
+<div class="title">📝 ONLINE ADAPTIVE ASSESSMENT</div>
 
-<p>AI Based Online Test</p>
+<form id="startForm">
 
-<input type="text" id="name" placeholder="Enter your name">
+<div class="input-group">
+<span>👤</span>
+<input type="text" name="name" id="nameField" 
+placeholder="Enter Your Full Name" required>
+</div>
 
-<button onclick="start()">Start Test</button>
+<div class="input-group">
+<span>🎓</span>
+<input type="text" name="roll" placeholder="Enter Your Roll Number" required>
+</div>
+
+<button type="submit">
+Submit & Test Start
+</button>
+
+</form>
+
+<div class="footer">
+Secure Identity Verification Portal
+</div>
 
 </div>
 
 <script>
 
-function start() {
-    var name = document.getElementById("name").value;
+// Prevent numbers while typing in Name field
+document.getElementById("nameField").addEventListener("input", function(){
+    this.value = this.value.replace(/[0-9]/g, '');
+});
 
-    if(name == "") {
-        alert("Enter name");
+// Form submit
+document.getElementById("startForm").addEventListener("submit", function(e){
+    e.preventDefault();
+
+    var name = this.name.value.trim();
+    var roll = this.roll.value.trim();
+
+    // Extra safety check (no numbers allowed)
+    if(/\d/.test(name)){
+        alert("Name should not contain numbers");
         return;
     }
 
-    localStorage.setItem("student", name);
-    window.location = "test.html";
-}
+    if(name === "" || roll === ""){
+        alert("Please fill in all fields");
+        return;
+    }
 
+    localStorage.setItem("studentName", name);
+    localStorage.setItem("rollNumber", roll);
+
+    window.location = "test.html";
+});
 </script>
 
 </body>
