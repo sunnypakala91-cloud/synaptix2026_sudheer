@@ -23,12 +23,35 @@ def init_db():
 
 init_db()
 
+
 # ------------------------
-# Home page
+# Home Page (Dashboard)
 # ------------------------
 @app.route('/')
-def home():
-    return render_template("index.html")
+def dashboard():
+
+    conn = sqlite3.connect("database.db")
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        SELECT name, score
+        FROM leaderboard
+        ORDER BY score DESC
+        LIMIT 10
+    """)
+
+    rows = cursor.fetchall()
+    conn.close()
+
+    students = []
+
+    for row in rows:
+        students.append({
+            "name": row[0],
+            "score": row[1]
+        })
+
+    return render_template("dashboard.html", students=students)
 
 
 # ------------------------
@@ -38,7 +61,6 @@ def home():
 def submit_score():
 
     data = request.json
-
     name = data['name']
     score = data['score']
 
@@ -76,7 +98,6 @@ def get_leaderboard():
     """)
 
     rows = cursor.fetchall()
-
     conn.close()
 
     leaderboard = []
