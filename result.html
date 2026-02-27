@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Assessment Result</title>
+
+<style>
+body{
+    margin:0;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg,#14252c,#203a43,#2c5364);
+    color:white;
+}
+.header{
+    padding:20px;
+    text-align:center;
+    font-size:28px;
+    font-weight:bold;
+    letter-spacing:1px;
+}
+.container{
+    max-width:900px;
+    margin:30px auto;
+    padding:20px;
+}
+.cards{
+    display:grid;
+    grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
+    gap:20px;
+}
+.card{
+    background: rgba(35, 33, 33, 0.08);
+    padding:20px;
+    border-radius:12px;
+    backdrop-filter: blur(8px);
+    box-shadow:0 0 15px rgba(0,0,0,0.4);
+    transition:0.3s;
+}
+.card:hover{
+    transform:scale(1.05);
+}
+.label{
+    font-size:14px;
+    color:#aaa;
+}
+.value{
+    font-size:22px;
+    margin-top:5px;
+    font-weight:bold;
+}
+.status{
+    text-align:center;
+    margin-top:30px;
+    font-size:22px;
+    font-weight:bold;
+    color:#00ffcc;
+}
+.feedback{
+    margin-top:40px;
+    text-align:center;
+}
+.feedback textarea{
+    width:80%;
+    padding:10px;
+    margin:8px 0;
+    border-radius:8px;
+    border:none;
+    outline:none;
+    font-size:16px;
+    resize:none;
+    height:100px;
+}
+.btn{
+    display:block;
+    margin:20px auto;
+    padding:12px 30px;
+    border:none;
+    border-radius:8px;
+    background:#00ffcc;
+    color:black;
+    font-size:16px;
+    cursor:pointer;
+    font-weight:bold;
+}
+.btn:hover{
+    background:#00ccaa;
+}
+.btn:disabled{
+    background:gray;
+    cursor:not-allowed;
+}
+.submitted-feedback{
+    color:#5eff00;
+    font-weight:bold;
+    margin-top:10px;
+    font-size:18px;
+}
+
+/* ===== Horizontal Performance Bar ===== */
+.performance-bar-container{
+    margin-top:40px;
+}
+.performance-bar{
+    height:35px;
+    width:100%;
+    background:#333;
+    border-radius:10px;
+    display:flex;
+    overflow:hidden;
+}
+.performance-segment{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-weight:bold;
+    color:#000;
+    transition: width 1s;
+}
+.bar-correct{ background:#00ffcc; color:#000; }
+.bar-wrong{ background:#ff4c4c; color:#000; }
+.bar-notAttempted{ background:#ffaa00; color:#000; }
+</style>
+</head>
+<body>
+
+<div class="header">Assessment Result</div>
+
+<div class="container">
+
+<div class="cards">
+<div class="card">
+<div class="label">Student Name</div>
+<div class="value" id="studentName">Student</div>
+</div>
+
+<div class="card">
+<div class="label">Correct Answers</div>
+<div class="value" id="correct">0</div>
+</div>
+
+<div class="card" onclick="showWrongAnswers()" style="cursor:pointer;">
+<div class="label">Wrong Answers (Click to Review)</div>
+<div class="value" id="wrong">0</div>
+</div>
+
+<div class="card">
+<div class="label">Not Attempted</div>
+<div class="value" id="notAttempted">0</div>
+</div>
+
+<div class="card">
+<div class="label">Accuracy</div>
+<div class="value" id="accuracy">0%</div>
+</div>
+</div>
+
+<!-- Horizontal Performance Bar -->
+<div class="performance-bar-container">
+    <div style="margin-bottom:8px;">Performance Overview</div>
+    <div class="performance-bar">
+        <div id="barCorrect" class="performance-segment bar-correct" style="width:0%">0%</div>
+        <div id="barWrong" class="performance-segment bar-wrong" style="width:0%">0%</div>
+        <div id="barNotAttempted" class="performance-segment bar-notAttempted" style="width:0%">0%</div>
+    </div>
+</div>
+
+<div class="status" id="status">Performance</div>
+
+<div id="wrongSection" style="display:none; margin-top:40px;">
+<h3 style="text-align:center;">Wrong Answers Review</h3>
+<div id="wrongList"></div>
+</div>
+
+<div class="feedback">
+<h3>Feedback</h3>
+<textarea id="fbMessage" placeholder="Write your feedback"></textarea><br/>
+<button class="btn" id="submitFeedbackBtn" onclick="submitFeedback()">Submit Feedback</button>
+<div class="submitted-feedback" id="feedbackStatus"></div>
+<button class="btn" id="homeBtn" onclick="goHome()" disabled>Back to Home</button>
+</div>
+
+</div>
+
+<script>
+// Retrieve score and answers from localStorage
+let score = parseInt(localStorage.getItem("score")) || 0;
+let answers = JSON.parse(localStorage.getItem("answers")) || [];
+let name = localStorage.getItem("studentName") || "Student";
+
+let notAttempted = answers.filter(a => a.selected === "No Answer").length;
+let wrong = answers.filter(a => a.selected !== a.correct && a.selected !== "No Answer").length;
+let correct = score;
+let total = answers.length;
+let accuracy = total > 0 ? Math.round((correct / total) * 100) : 0;
+
+// Update DOM
+document.getElementById("studentName").innerText = name;
+document.getElementById("correct").innerText = correct;
+document.getElementById("wrong").innerText = wrong;
+document.getElementById("notAttempted").innerText = notAttempted;
+document.getElementById("accuracy").innerText = accuracy + "%";
+
+// Performance message
+let statusMsg = "Needs Improvement";
+if(correct >= 10) statusMsg = "Excellent Performance 🔥";
+else if(correct >= 7) statusMsg = "Good Performance 👍";
+document.getElementById("status").innerText = statusMsg;
+
+// 🔹 Fill Horizontal Bar
+let correctPercent = total>0 ? Math.round((correct/total)*100) : 0;
+let wrongPercent = total>0 ? Math.round((wrong/total)*100) : 0;
+let notAttemptedPercent = total>0 ? 100 - correctPercent - wrongPercent : 0;
+
+// Animate bars
+setTimeout(()=>{
+    document.getElementById("barCorrect").style.width = correctPercent + "%";
+    document.getElementById("barCorrect").innerText = correctPercent + "%";
+
+    document.getElementById("barWrong").style.width = wrongPercent + "%";
+    document.getElementById("barWrong").innerText = wrongPercent + "%";
+
+    document.getElementById("barNotAttempted").style.width = notAttemptedPercent + "%";
+    document.getElementById("barNotAttempted").innerText = notAttemptedPercent + "%";
+}, 200);
+
+// 🔥 Show wrong answers
+function showWrongAnswers(){
+    let wrongSection = document.getElementById("wrongSection");
+    let wrongList = document.getElementById("wrongList");
+    wrongList.innerHTML = "";
+    let wrongAnswers = answers.filter(a => a.selected !== a.correct && a.selected !== "No Answer");
+    if(wrongAnswers.length === 0){
+        wrongList.innerHTML = "<p style='text-align:center;color:#00ffcc;'>No wrong answers 🎉</p>";
+    } else {
+        wrongAnswers.forEach((q, index) => {
+            let div = document.createElement("div");
+            div.style.background = "rgba(255,0,0,0.1)";
+            div.style.padding = "15px";
+            div.style.margin = "15px 0";
+            div.style.borderRadius = "10px";
+            div.innerHTML = `
+                <p><strong>Question:</strong> ${q.question || "Question not available"}</p>
+                <p style="color:#ff6666;">Your Answer: ${q.selected}</p>
+                <p style="color:#5eff00;">Correct Answer: ${q.correct}</p>
+                <p style="color:#00ffcc;"><strong>Explanation:</strong> ${q.explanation || "No explanation provided."}</p>
+            `;
+            wrongList.appendChild(div);
+        });
+    }
+    wrongSection.style.display = "block";
+}
+
+// Feedback
+function submitFeedback(){
+    let fbMsg = document.getElementById("fbMessage").value.trim();
+    if(fbMsg==""){ alert("Please provide your feedback before submitting."); return; }
+    let allFeedback = JSON.parse(localStorage.getItem("feedback")) || [];
+    allFeedback.push({message:fbMsg});
+    localStorage.setItem("feedback", JSON.stringify(allFeedback));
+    document.getElementById("fbMessage").readOnly = true;
+    document.getElementById("submitFeedbackBtn").disabled = true;
+    document.getElementById("feedbackStatus").innerText = "Thank you for your feedback! ✅";
+    document.getElementById("homeBtn").disabled = false;
+}
+
+function goHome(){ window.location.href = "index.html"; }
+
+</script>
+
+</body>
+</html>
