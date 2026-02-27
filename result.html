@@ -93,6 +93,7 @@ body{
     color:#5eff00;
     font-weight:bold;
     margin-top:10px;
+    font-size:18px;
 }
 </style>
 </head>
@@ -176,12 +177,19 @@ function submitFeedback(){
         alert("Please provide your feedback before submitting.");
         return;
     }
+    // Save feedback to localStorage
     let allFeedback = JSON.parse(localStorage.getItem("feedback")) || [];
     allFeedback.push({message:fbMsg});
     localStorage.setItem("feedback", JSON.stringify(allFeedback));
+
+    // Disable textarea & submit button
     document.getElementById("fbMessage").readOnly = true;
     document.getElementById("submitFeedbackBtn").disabled = true;
-    document.getElementById("feedbackStatus").innerText = "Feedback submitted ✓";
+
+    // Show thank you message
+    document.getElementById("feedbackStatus").innerText = "Thank you for your feedback! ✅";
+
+    // Enable Home button
     document.getElementById("homeBtn").disabled = false;
 }
 
