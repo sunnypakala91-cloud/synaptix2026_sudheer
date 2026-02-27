@@ -5,15 +5,12 @@
 <title>Assessment Result</title>
 
 <style>
-
 body{
     margin:0;
     font-family: 'Segoe UI', sans-serif;
     background: linear-gradient(135deg,#0f2027,#203a43,#2c5364);
     color:white;
 }
-
-/* Header */
 .header{
     padding:20px;
     text-align:center;
@@ -21,21 +18,16 @@ body{
     font-weight:bold;
     letter-spacing:1px;
 }
-
-/* Main container */
 .container{
     max-width:900px;
     margin:30px auto;
     padding:20px;
 }
-
-/* Score circle */
 .score-box{
     display:flex;
     justify-content:center;
     margin-bottom:30px;
 }
-
 .circle{
     width:180px;
     height:180px;
@@ -48,15 +40,11 @@ body{
     font-weight:bold;
     box-shadow:0 0 25px rgba(0,255,204,0.6);
 }
-
-/* Card layout */
 .cards{
     display:grid;
     grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
     gap:20px;
 }
-
-/* Individual card */
 .card{
     background: rgba(255,255,255,0.08);
     padding:20px;
@@ -65,24 +53,18 @@ body{
     box-shadow:0 0 15px rgba(0,0,0,0.4);
     transition:0.3s;
 }
-
 .card:hover{
     transform:scale(1.05);
 }
-
-/* Labels */
 .label{
     font-size:14px;
     color:#aaa;
 }
-
 .value{
     font-size:22px;
     margin-top:5px;
     font-weight:bold;
 }
-
-/* Status */
 .status{
     text-align:center;
     margin-top:30px;
@@ -90,11 +72,24 @@ body{
     font-weight:bold;
     color:#00ffcc;
 }
-
-/* Button */
+.feedback{
+    margin-top:40px;
+    text-align:center;
+}
+.feedback textarea{
+    width:80%;
+    padding:10px;
+    margin:8px 0;
+    border-radius:8px;
+    border:none;
+    outline:none;
+    font-size:16px;
+    resize:none;
+    height:100px;
+}
 .btn{
     display:block;
-    margin:30px auto;
+    margin:20px auto;
     padding:12px 30px;
     border:none;
     border-radius:8px;
@@ -104,11 +99,18 @@ body{
     cursor:pointer;
     font-weight:bold;
 }
-
 .btn:hover{
     background:#00ccaa;
 }
-
+.btn:disabled{
+    background:gray;
+    cursor:not-allowed;
+}
+.submitted-feedback{
+    color:#00ffcc;
+    font-weight:bold;
+    margin-top:10px;
+}
 </style>
 </head>
 <body>
@@ -120,70 +122,94 @@ Assessment Result
 <div class="container">
 
 <div class="score-box">
-<div class="circle" id="scoreCircle">
-15 / 20
-</div>
+<div class="circle" id="scoreCircle">0 / 30</div>
 </div>
 
 <div class="cards">
-
 <div class="card">
 <div class="label">Student Name</div>
-<div class="value" id="studentName">Pavan</div>
+<div class="value" id="studentName">Student</div>
 </div>
 
 <div class="card">
 <div class="label">Correct Answers</div>
-<div class="value" id="correct">15</div>
+<div class="value" id="correct">0</div>
 </div>
 
 <div class="card">
 <div class="label">Wrong Answers</div>
-<div class="value" id="wrong">5</div>
+<div class="value" id="wrong">0</div>
+</div>
+
+<div class="card">
+<div class="label">Not Attempted</div>
+<div class="value" id="notAttempted">0</div>
 </div>
 
 <div class="card">
 <div class="label">Accuracy</div>
-<div class="value" id="accuracy">75%</div>
+<div class="value" id="accuracy">0%</div>
+</div>
 </div>
 
-</div>
+<div class="status" id="status">Performance</div>
 
-<div class="status" id="status">
-Good Performance 👍
+<div class="feedback">
+<h3>Feedback (required to go home)</h3>
+<textarea id="fbMessage" placeholder="Write your feedback"></textarea><br/>
+<button class="btn" id="submitFeedbackBtn" onclick="submitFeedback()">Submit Feedback</button>
+<div class="submitted-feedback" id="feedbackStatus"></div>
+<button class="btn" id="homeBtn" onclick="goHome()" disabled>Back to Home</button>
 </div>
-
-<button class="btn" onclick="goHome()">Back to Home</button>
 
 </div>
 
 <script>
+// Retrieve score and answers from localStorage
+let score = parseInt(localStorage.getItem("score")) || 0;
+let answers = JSON.parse(localStorage.getItem("answers")) || [];
+let name = localStorage.getItem("studentName") || "Student";
 
-let score = localStorage.getItem("score") || 15;
-let name = localStorage.getItem("name") || "Student";
+// Count not attempted questions
+let notAttempted = answers.filter(a => a.selected === "No Answer").length;
+let wrong = answers.filter(a => a.selected !== a.correct && a.selected !== "No Answer").length;
+let correct = score;
+let total = answers.length;
+let accuracy = total > 0 ? Math.round((correct / total) * 100) : 0;
 
-let wrong = 20 - score;
-let accuracy = Math.round((score/20)*100);
-
+// Update DOM
 document.getElementById("studentName").innerText = name;
-document.getElementById("correct").innerText = score;
+document.getElementById("correct").innerText = correct;
 document.getElementById("wrong").innerText = wrong;
+document.getElementById("notAttempted").innerText = notAttempted;
 document.getElementById("accuracy").innerText = accuracy + "%";
+document.getElementById("scoreCircle").innerText = correct + " / " + total;
 
-document.getElementById("scoreCircle").innerText = score + " / 20";
+// Performance message
+let statusMsg = "Needs Improvement";
+if(correct >= 25) statusMsg = "Excellent Performance 🔥";
+else if(correct >= 15) statusMsg = "Good Performance 👍";
+document.getElementById("status").innerText = statusMsg;
 
-/* performance message */
-let status = "Needs Improvement";
-
-if(score >= 16) status = "Excellent Performance 🔥";
-else if(score >= 10) status = "Good Performance 👍";
-
-document.getElementById("status").innerText = status;
+// Feedback functions
+function submitFeedback(){
+    let fbMsg = document.getElementById("fbMessage").value.trim();
+    if(fbMsg==""){
+        alert("Please provide your feedback before submitting.");
+        return;
+    }
+    let allFeedback = JSON.parse(localStorage.getItem("feedback")) || [];
+    allFeedback.push({message:fbMsg});
+    localStorage.setItem("feedback", JSON.stringify(allFeedback));
+    document.getElementById("fbMessage").readOnly = true;
+    document.getElementById("submitFeedbackBtn").disabled = true;
+    document.getElementById("feedbackStatus").innerText = "Feedback submitted ✓";
+    document.getElementById("homeBtn").disabled = false;
+}
 
 function goHome(){
     window.location.href = "index.html";
 }
-
 </script>
 
 </body>
