@@ -1,260 +1,198 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Adaptive Assessment Test</title>
+<title>Online Adaptive Assessment</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Inter:wght@300;500;600&display=swap" rel="stylesheet">
 
 <style>
-
-/* ===== Modern Soft Animated Background ===== */
-body{
-    margin:0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    height:100vh;
-    overflow:hidden;
-    background: #f0f4ff;
-    display:flex;
-    justify-content:center;
-    align-items:center;
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Inter',sans-serif;
 }
 
-/* Animated Gradient Blobs */
-body::before,
-body::after{
-    content:"";
-    position:absolute;
-    width:600px;
-    height:600px;
-    border-radius:50%;
-    filter: blur(120px);
-    z-index:0;
-    animation: move 12s infinite alternate ease-in-out;
+body{
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:linear-gradient(135deg,#0f0c29,#302b63,#24243e);
+overflow:hidden;
 }
 
 body::before{
-    background:#667eea;
-    top:-200px;
-    left:-200px;
+content:"";
+position:absolute;
+width:600px;
+height:600px;
+background:radial-gradient(circle,#00f7ff55,transparent);
+top:-200px;
+left:-200px;
+animation:moveGlow 8s infinite alternate;
 }
 
 body::after{
-    background:#ff6ec4;
-    bottom:-200px;
-    right:-200px;
+content:"";
+position:absolute;
+width:500px;
+height:500px;
+background:radial-gradient(circle,#ff00cc55,transparent);
+bottom:-200px;
+right:-200px;
+animation:moveGlow 10s infinite alternate-reverse;
 }
 
-@keyframes move{
-    from{ transform:translateY(0px) translateX(0px); }
-    to{ transform:translateY(40px) translateX(40px); }
+@keyframes moveGlow{
+from{transform:translate(0,0);}
+to{transform:translate(80px,80px);}
 }
 
-/* ===== Header ===== */
-.header{
-    position:absolute;
-    top:0;
-    width:100%;
-    background:white;
-    color:#333;
-    padding:18px;
-    text-align:center;
-    font-size:22px;
-    font-weight:bold;
-    box-shadow:0 2px 10px rgba(0,0,0,0.1);
-    z-index:2;
+.card{
+position:relative;
+z-index:10;
+width:500px;
+padding:50px;
+background:rgba(255,255,255,0.05);
+backdrop-filter:blur(30px);
+border-radius:30px;
+box-shadow:0 0 60px rgba(0,255,255,0.2);
+color:white;
+text-align:center;
 }
 
-/* ===== Card Design ===== */
-.box{
-    position:relative;
-    z-index:1;
-    background:white;
-    padding:30px;
-    width:500px;
-    border-radius:20px;
-    box-shadow:0 20px 40px rgba(0,0,0,0.15);
-    animation: fadeIn 0.6s ease-in-out;
+.title{
+font-family:'Orbitron',sans-serif;
+font-size:20px;
+letter-spacing:2px;
+margin-bottom:30px;
+color:#00f7ff;
+text-shadow:0 0 15px #00f7ff;
 }
 
-#timer{
-    text-align:center;
-    font-weight:bold;
-    font-size:18px;
-    margin-bottom:15px;
-    color:#667eea;
+.input-group{
+margin-bottom:25px;
+position:relative;
 }
 
-#qno{
-    color:#667eea;
+.input-group span{
+position:absolute;
+left:15px;
+top:50%;
+transform:translateY(-50%);
+font-size:16px;
+opacity:0.7;
 }
 
-.option{
-    padding:12px;
-    margin:10px 0;
-    border:1px solid #ddd;
-    border-radius:12px;
-    cursor:pointer;
-    transition:0.3s;
+input{
+width:100%;
+padding:14px 14px 14px 40px;
+border:none;
+border-radius:15px;
+background:rgba(255,255,255,0.1);
+color:white;
+font-size:14px;
+outline:none;
+transition:0.3s;
 }
 
-.option:hover{
-    background:#eef2ff;
-    transform:translateX(5px);
-}
-
-.selected{
-    background:#667eea;
-    color:white;
-    border-color:#667eea;
+input:focus{
+box-shadow:0 0 20px #00f7ff;
+transform:scale(1.03);
 }
 
 button{
-    padding:12px 18px;
-    margin:10px 5px;
-    border:none;
-    border-radius:10px;
-    cursor:pointer;
-    font-weight:bold;
-    transition:0.3s;
+margin-top:20px;
+width:100%;
+padding:15px;
+border:none;
+border-radius:30px;
+background:linear-gradient(45deg,#00f7ff,#ff00cc);
+color:white;
+font-size:16px;
+font-weight:600;
+cursor:pointer;
+transition:0.3s;
+display:flex;
+justify-content:center;
+align-items:center;
+gap:10px;
 }
 
-.submit{
-    background:#48bb78;
-    color:white;
+button:hover{
+transform:scale(1.07);
+box-shadow:0 0 30px #ff00cc;
 }
 
-.next{
-    background:#667eea;
-    color:white;
+.footer{
+margin-top:20px;
+font-size:11px;
+opacity:0.6;
 }
-
-button:hover:not(:disabled){
-    transform:scale(1.05);
-}
-
-button:disabled{
-    background:gray;
-    cursor:not-allowed;
-}
-
-#status{
-    margin-top:10px;
-    font-weight:bold;
-}
-
-.submitted{
-    color:green;
-}
-
-@keyframes fadeIn{
-    from{opacity:0; transform:translateY(15px);}
-    to{opacity:1; transform:translateY(0);}
-}
-
 </style>
 </head>
 
 <body>
 
-<div class="header">Adaptive Assessment Platform</div>
+<div class="card">
 
-<div class="box">
-<div id="timer">Time Left: 15s</div>
-<h3 id="qno"></h3>
-<h2 id="question"></h2>
-<div id="options"></div>
+<div class="title">📝 ONLINE ADAPTIVE ASSESSMENT</div>
 
-<button class="submit" onclick="submitAnswer()" id="submitBtn">Submit</button>
-<button class="next" onclick="nextQuestion()" id="nextBtn" disabled>Next</button>
+<form id="startForm">
 
-<div id="status"></div>
+<div class="input-group">
+<span>👤</span>
+<input type="text" name="name" id="nameField" 
+placeholder="Enter Your Full Name" required>
+</div>
+
+<div class="input-group">
+<span>🎓</span>
+<input type="text" name="roll" placeholder="Enter Your Roll Number" required>
+</div>
+
+<button type="submit">
+Submit & Test Start
+</button>
+
+</form>
+
+<div class="footer">
+Secure Identity Verification Portal
+</div>
+
 </div>
 
 <script>
 
-var questions=[
-{q:"What does CPU stand for?",options:["Central Processing Unit","Computer Processing Unit","Control Unit","Central Program Unit"],answer:"Central Processing Unit"},
-{q:"Which language is used for web pages?",options:["HTML","C","Python","Java"],answer:"HTML"},
-{q:"Which is an Operating System?",options:["Windows","HTML","Python","CSS"],answer:"Windows"},
-{q:"Which device stores data permanently?",options:["Hard Disk","RAM","CPU","Cache"],answer:"Hard Disk"},
-{q:"Which is an input device?",options:["Keyboard","Monitor","Printer","Speaker"],answer:"Keyboard"},
-{q:"Which symbol is used for comments in Python?",options:["#","//","/* */","--"],answer:"#"},
-{q:"Which is a programming language?",options:["Python","HTML","CSS","Photoshop"],answer:"Python"},
-{q:"Which is a browser?",options:["Chrome","CPU","RAM","SSD"],answer:"Chrome"},
-{q:"Which is volatile memory?",options:["RAM","Hard Disk","ROM","DVD"],answer:"RAM"},
-{q:"Which is used for styling web pages?",options:["CSS","HTML","Python","Java"],answer:"CSS"}
-];
+// Prevent numbers while typing in Name field
+document.getElementById("nameField").addEventListener("input", function(){
+    this.value = this.value.replace(/[0-9]/g, '');
+});
 
-questions.sort(()=>Math.random()-0.5);
+// Form submit
+document.getElementById("startForm").addEventListener("submit", function(e){
+    e.preventDefault();
 
-var index=0, score=0, selected="", answers=[], submitted=false;
-var timer, timeLeft=15;
+    var name = this.name.value.trim();
+    var roll = this.roll.value.trim();
 
-loadQuestion();
-
-function startTimer(){
-    timeLeft=15;
-    document.getElementById("timer").innerText="Time Left: "+timeLeft+"s";
-    clearInterval(timer);
-    timer=setInterval(function(){
-        timeLeft--;
-        document.getElementById("timer").innerText="Time Left: "+timeLeft+"s";
-        if(timeLeft<=0){
-            clearInterval(timer);
-            nextQuestion(true);
-        }
-    },1000);
-}
-
-function loadQuestion(){
-    submitted=false; selected="";
-    document.getElementById("submitBtn").disabled=false;
-    document.getElementById("nextBtn").disabled=true;
-    document.getElementById("status").innerHTML="";
-    var q=questions[index];
-    document.getElementById("qno").innerHTML="Question "+(index+1)+" of 10";
-    document.getElementById("question").innerHTML=(index+1)+". "+q.q;
-    var html="";
-    q.options.forEach(function(opt){
-        html+="<div class='option' onclick='selectOption(this)'>"+opt+"</div>";
-    });
-    document.getElementById("options").innerHTML=html;
-    startTimer();
-}
-
-function selectOption(el){
-    if(submitted) return;
-    var all=document.getElementsByClassName("option");
-    for(var i=0;i<all.length;i++) all[i].classList.remove("selected");
-    el.classList.add("selected");
-    selected=el.innerHTML;
-}
-
-function submitAnswer(){
-    if(selected==""){ alert("Please select an option"); return; }
-    clearInterval(timer);
-    submitted=true;
-    var correct=questions[index].answer;
-    answers.push({question:questions[index].q,selected:selected,correct:correct});
-    if(selected==correct) score++;
-    document.getElementById("status").innerHTML="Submitted ✓";
-    document.getElementById("status").className="submitted";
-    document.getElementById("submitBtn").disabled=true;
-    document.getElementById("nextBtn").disabled=false;
-}
-
-function nextQuestion(timeUp=false){
-    if(timeUp){
-        answers.push({question:questions[index].q,selected:"No Answer",correct:questions[index].answer});
+    // Extra safety check (no numbers allowed)
+    if(/\d/.test(name)){
+        alert("Name should not contain numbers");
+        return;
     }
-    index++;
-    if(index>=10){
-        localStorage.setItem("score",score);
-        localStorage.setItem("answers",JSON.stringify(answers));
-        window.location="result.html";
-    } else {
-        loadQuestion();
-    }
-}
 
+    if(name === "" || roll === ""){
+        alert("Please fill in all fields");
+        return;
+    }
+
+    localStorage.setItem("studentName", name);
+    localStorage.setItem("rollNumber", roll);
+
+    window.location = "test.html";
+});
 </script>
 
 </body>
