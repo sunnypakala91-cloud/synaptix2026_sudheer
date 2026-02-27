@@ -1,0 +1,42 @@
+[
+    {
+        "name": "",
+        "score": 25.0,
+        "level": "Weak"
+    },
+    {
+        "name": "",
+        "score": 40.0,
+        "level": "Weak"
+    },
+    {
+        "name": "",
+        "score": 50.0,
+        "level": "Medium"
+    },
+    {
+        "name": "",
+        "score": 57.14285714285714,
+        "level": "Medium"
+    },
+    {
+        "name": "pavan",
+        "score": 100.0,
+        "level": "Strong"
+    },
+    {
+        "name": "sudheer",
+        "score": 100.0,
+        "level": "Strong"
+    },
+    {
+        "name": "sudheer",
+        "score": 66.66666666666666,
+        "level": "Medium"
+    },
+    {
+        "name": "sudheer",
+        "score": 50.0,
+        "level": "Medium"
+    }
+]

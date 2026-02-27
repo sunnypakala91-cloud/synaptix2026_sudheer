@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Assessment Result</title>
+
+<style>
+
+body{
+    margin:0;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+    color:white;
+}
+
+/* Header */
+.header{
+    padding:20px;
+    text-align:center;
+    font-size:28px;
+    font-weight:bold;
+    letter-spacing:1px;
+}
+
+/* Main container */
+.container{
+    max-width:900px;
+    margin:30px auto;
+    padding:20px;
+}
+
+/* Score circle */
+.score-box{
+    display:flex;
+    justify-content:center;
+    margin-bottom:30px;
+}
+
+.circle{
+    width:180px;
+    height:180px;
+    border-radius:50%;
+    background: conic-gradient(#00ffcc 0% 75%, #444 75% 100%);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:36px;
+    font-weight:bold;
+    box-shadow:0 0 25px rgba(0,255,204,0.6);
+}
+
+/* Card layout */
+.cards{
+    display:grid;
+    grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
+    gap:20px;
+}
+
+/* Individual card */
+.card{
+    background: rgba(255,255,255,0.08);
+    padding:20px;
+    border-radius:12px;
+    backdrop-filter: blur(8px);
+    box-shadow:0 0 15px rgba(0,0,0,0.4);
+    transition:0.3s;
+}
+
+.card:hover{
+    transform:scale(1.05);
+}
+
+/* Labels */
+.label{
+    font-size:14px;
+    color:#aaa;
+}
+
+.value{
+    font-size:22px;
+    margin-top:5px;
+    font-weight:bold;
+}
+
+/* Status */
+.status{
+    text-align:center;
+    margin-top:30px;
+    font-size:22px;
+    font-weight:bold;
+    color:#00ffcc;
+}
+
+/* Button */
+.btn{
+    display:block;
+    margin:30px auto;
+    padding:12px 30px;
+    border:none;
+    border-radius:8px;
+    background:#00ffcc;
+    color:black;
+    font-size:16px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.btn:hover{
+    background:#00ccaa;
+}
+
+</style>
+</head>
+<body>
+
+<div class="header">
+Assessment Result
+</div>
+
+<div class="container">
+
+<div class="score-box">
+<div class="circle" id="scoreCircle">
+15 / 20
+</div>
+</div>
+
+<div class="cards">
+
+<div class="card">
+<div class="label">Student Name</div>
+<div class="value" id="studentName">Pavan</div>
+</div>
+
+<div class="card">
+<div class="label">Correct Answers</div>
+<div class="value" id="correct">15</div>
+</div>
+
+<div class="card">
+<div class="label">Wrong Answers</div>
+<div class="value" id="wrong">5</div>
+</div>
+
+<div class="card">
+<div class="label">Accuracy</div>
+<div class="value" id="accuracy">75%</div>
+</div>
+
+</div>
+
+<div class="status" id="status">
+Good Performance 👍
+</div>
+
+<button class="btn" onclick="goHome()">Back to Home</button>
+
+</div>
+
+<script>
+
+let score = localStorage.getItem("score") || 15;
+let name = localStorage.getItem("name") || "Student";
+
+let wrong = 20 - score;
+let accuracy = Math.round((score/20)*100);
+
+document.getElementById("studentName").innerText = name;
+document.getElementById("correct").innerText = score;
+document.getElementById("wrong").innerText = wrong;
+document.getElementById("accuracy").innerText = accuracy + "%";
+
+document.getElementById("scoreCircle").innerText = score + " / 20";
+
+/* performance message */
+let status = "Needs Improvement";
+
+if(score >= 16) status = "Excellent Performance 🔥";
+else if(score >= 10) status = "Good Performance 👍";
+
+document.getElementById("status").innerText = status;
+
+function goHome(){
+    window.location.href = "index.html";
+}
+
+</script>
+
+</body>
+</html>

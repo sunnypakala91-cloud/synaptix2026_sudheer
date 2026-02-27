@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Adaptive Assessment Test</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Arial;
+background:#f4f6fb;
+}
+
+.header{
+background:#667eea;
+color:white;
+padding:15px;
+text-align:center;
+font-size:22px;
+font-weight:bold;
+}
+
+.box{
+background:white;
+padding:25px;
+margin:30px auto;
+width:450px;
+border-radius:12px;
+box-shadow:0 5px 15px rgba(0,0,0,0.2);
+}
+
+#qno{
+color:#667eea;
+}
+
+.option{
+padding:12px;
+margin:8px 0;
+border:1px solid #ccc;
+border-radius:8px;
+cursor:pointer;
+transition:0.3s;
+}
+
+.option:hover{
+background:#eef2ff;
+}
+
+.selected{
+background:#c3dafe;
+border-color:#667eea;
+}
+
+.correct{
+background:#c6f6d5;
+border-color:green;
+color:green;
+}
+
+.wrong{
+background:#fed7d7;
+border-color:red;
+color:red;
+}
+
+button{
+padding:10px;
+margin:10px 5px;
+border:none;
+border-radius:8px;
+cursor:pointer;
+font-weight:bold;
+}
+
+.submit{
+background:#48bb78;
+color:white;
+}
+
+.next{
+background:#667eea;
+color:white;
+}
+
+button:disabled{
+background:gray;
+cursor:not-allowed;
+}
+
+#status{
+margin-top:10px;
+font-weight:bold;
+}
+
+.submitted{
+color:green;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+Adaptive Assessment Platform
+</div>
+
+<div class="box">
+
+<h3 id="qno"></h3>
+
+<h2 id="question"></h2>
+
+<div id="options"></div>
+
+<button class="submit" onclick="submitAnswer()" id="submitBtn">Submit</button>
+
+<button class="next" onclick="nextQuestion()" id="nextBtn" disabled>Next</button>
+
+<div id="status"></div>
+
+</div>
+
+<script>
+
+/* ================= 30 QUESTIONS ================= */
+
+var questions=[
+
+/* EASY */
+
+{q:"What does CPU stand for?",options:["Central Processing Unit","Computer Processing Unit","Control Unit","Central Program Unit"],answer:"Central Processing Unit"},
+
+{q:"Which language is used for web pages?",options:["HTML","C","Python","Java"],answer:"HTML"},
+
+{q:"Which is an Operating System?",options:["Windows","HTML","Python","CSS"],answer:"Windows"},
+
+{q:"Which device stores data permanently?",options:["Hard Disk","RAM","CPU","Cache"],answer:"Hard Disk"},
+
+{q:"Which is an input device?",options:["Keyboard","Monitor","Printer","Speaker"],answer:"Keyboard"},
+
+{q:"Which symbol is used for comments in Python?",options:["#","//","/* */","--"],answer:"#"},  
+
+{q:"Which is a programming language?",options:["Python","HTML","CSS","Photoshop"],answer:"Python"},
+
+{q:"Which is a browser?",options:["Chrome","CPU","RAM","SSD"],answer:"Chrome"},
+
+{q:"Which is volatile memory?",options:["RAM","Hard Disk","ROM","DVD"],answer:"RAM"},
+
+{q:"Which is used for styling web pages?",options:["CSS","HTML","Python","Java"],answer:"CSS"},
+
+
+/* MEDIUM */
+
+{q:"Which data structure uses FIFO?",options:["Queue","Stack","Tree","Graph"],answer:"Queue"},
+
+{q:"Which data structure uses LIFO?",options:["Stack","Queue","Array","Graph"],answer:"Stack"},
+
+{q:"Which SQL command retrieves data?",options:["SELECT","GET","OPEN","FETCH"],answer:"SELECT"},
+
+{q:"Which protocol is used for web browsing?",options:["HTTP","FTP","SMTP","TCP"],answer:"HTTP"},
+
+{q:"Which loop executes at least once?",options:["do while","for","while","none"],answer:"do while"},
+
+{q:"Which is relational database?",options:["MySQL","MongoDB","JSON","File"],answer:"MySQL"},
+
+{q:"Which layer handles routing?",options:["Network layer","Transport layer","Application layer","Physical layer"],answer:"Network layer"},
+
+{q:"Which is frontend technology?",options:["HTML","Python","Java","C"],answer:"HTML"},
+
+{q:"Which scheduling algorithm is fastest?",options:["SJF","FCFS","FIFO","Round Robin"],answer:"SJF"},
+
+{q:"Which is example of compiler?",options:["GCC","Chrome","MySQL","Windows"],answer:"GCC"},
+
+
+/* HARD */
+
+{q:"Time complexity of Binary Search?",options:["O(log n)","O(n)","O(n²)","O(1)"],answer:"O(log n)"},
+
+{q:"Worst case of Quick Sort?",options:["O(n²)","O(n log n)","O(log n)","O(n)"],answer:"O(n²)"},
+
+{q:"Which normal form removes transitive dependency?",options:["3NF","1NF","2NF","BCNF"],answer:"3NF"},
+
+{q:"Deadlock occurs when?",options:["All of these","Mutual exclusion","Hold and wait","No preemption"],answer:"All of these"},
+
+{q:"Which memory is fastest?",options:["Cache","RAM","Hard Disk","ROM"],answer:"Cache"},
+
+{q:"Which traversal gives sorted output in BST?",options:["Inorder","Preorder","Postorder","Level"],answer:"Inorder"},
+
+{q:"Which protocol is connection oriented?",options:["TCP","UDP","HTTP","FTP"],answer:"TCP"},
+
+{q:"Which data structure is used in recursion?",options:["Stack","Queue","Array","Tree"],answer:"Stack"},
+
+{q:"Which key uniquely identifies record?",options:["Primary key","Foreign key","Candidate key","Super key"],answer:"Primary key"},
+
+{q:"Which algorithm uses divide and conquer?",options:["Merge Sort","Bubble Sort","Selection Sort","Insertion Sort"],answer:"Merge Sort"}
+
+];
+
+var index=0;
+var score=0;
+var selected="";
+var answers=[];
+var submitted=false;
+
+loadQuestion();
+
+function loadQuestion()
+{
+submitted=false;
+selected="";
+
+document.getElementById("submitBtn").disabled=false;
+document.getElementById("nextBtn").disabled=true;
+document.getElementById("status").innerHTML="";
+
+var q=questions[index];
+
+document.getElementById("qno").innerHTML="Question "+(index+1)+" of 30";
+
+document.getElementById("question").innerHTML=(index+1)+". "+q.q;
+
+var html="";
+
+q.options.forEach(function(opt){
+html+="<div class='option' onclick='selectOption(this)'>"+opt+"</div>";
+});
+
+document.getElementById("options").innerHTML=html;
+}
+
+function selectOption(el)
+{
+if(submitted) return;
+
+var all=document.getElementsByClassName("option");
+
+for(var i=0;i<all.length;i++)
+all[i].classList.remove("selected");
+
+el.classList.add("selected");
+
+selected=el.innerHTML;
+}
+
+function submitAnswer()
+{
+
+if(selected=="")
+{
+alert("Please select an option");
+return;
+}
+
+submitted=true;
+
+var correct=questions[index].answer;
+
+var all=document.getElementsByClassName("option");
+
+for(var i=0;i<all.length;i++)
+{
+
+if(all[i].innerHTML==correct)
+all[i].classList.add("correct");
+
+if(all[i].innerHTML==selected && selected!=correct)
+all[i].classList.add("wrong");
+
+}
+
+answers.push({
+question:questions[index].q,
+selected:selected,
+correct:correct
+});
+
+if(selected==correct)
+score++;
+
+document.getElementById("status").innerHTML="Submitted ✓";
+document.getElementById("status").className="submitted";
+
+document.getElementById("submitBtn").disabled=true;
+document.getElementById("nextBtn").disabled=false;
+
+}
+
+function nextQuestion()
+{
+
+index++;
+
+if(index>=30)
+{
+
+localStorage.setItem("score",score);
+
+localStorage.setItem("answers",JSON.stringify(answers));
+
+window.location="result.html";
+
+}
+else
+loadQuestion();
+
+}
+
+</script>
+
+</body>
+</html>

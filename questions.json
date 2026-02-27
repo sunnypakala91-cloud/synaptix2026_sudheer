@@ -1,0 +1,224 @@
+const questions = [
+
+/* ================= EASY LEVEL ================= */
+
+{
+id: 1,
+level: "easy",
+subject: "Programming",
+question: "Which language is used to create web pages?",
+options: ["HTML", "C", "Python", "Java"],
+answer: "HTML"
+},
+
+{
+id: 2,
+level: "easy",
+subject: "Computer Fundamentals",
+question: "What does CPU stand for?",
+options: [
+"Central Processing Unit",
+"Control Processing Unit",
+"Computer Processing Unit",
+"Central Program Unit"
+],
+answer: "Central Processing Unit"
+},
+
+{
+id: 3,
+level: "easy",
+subject: "Data Structures",
+question: "Which data structure uses FIFO?",
+options: ["Stack", "Queue", "Tree", "Graph"],
+answer: "Queue"
+},
+
+{
+id: 4,
+level: "easy",
+subject: "Operating System",
+question: "Which is an example of Operating System?",
+options: ["Windows", "Google", "CPU", "Compiler"],
+answer: "Windows"
+},
+
+{
+id: 5,
+level: "easy",
+subject: "DBMS",
+question: "Which is used to store data?",
+options: ["Database", "CPU", "Monitor", "Keyboard"],
+answer: "Database"
+},
+
+/* ================= MEDIUM LEVEL ================= */
+
+{
+id: 6,
+level: "medium",
+subject: "Programming",
+question: "Which symbol is used for comments in Python?",
+options: ["//", "#", "/* */", "--"],
+answer: "#"
+},
+
+{
+id: 7,
+level: "medium",
+subject: "Data Structures",
+question: "Which data structure uses LIFO?",
+options: ["Queue", "Stack", "Array", "Graph"],
+answer: "Stack"
+},
+
+{
+id: 8,
+level: "medium",
+subject: "DBMS",
+question: "Which SQL command retrieves data?",
+options: ["GET", "SELECT", "OPEN", "FETCH"],
+answer: "SELECT"
+},
+
+{
+id: 9,
+level: "medium",
+subject: "Computer Networks",
+question: "Which protocol is used for web browsing?",
+options: ["FTP", "HTTP", "SMTP", "TCP"],
+answer: "HTTP"
+},
+
+{
+id: 10,
+level: "medium",
+subject: "Operating System",
+question: "Which scheduling algorithm is fastest?",
+options: ["FCFS", "SJF", "FIFO", "Round Robin"],
+answer: "SJF"
+},
+
+{
+id: 11,
+level: "medium",
+subject: "Programming",
+question: "Which loop runs at least once?",
+options: ["for", "while", "do while", "none"],
+answer: "do while"
+},
+
+{
+id: 12,
+level: "medium",
+subject: "Data Structures",
+question: "Which is non-linear data structure?",
+options: ["Array", "Stack", "Queue", "Tree"],
+answer: "Tree"
+},
+
+/* ================= HARD LEVEL ================= */
+
+{
+id: 13,
+level: "hard",
+subject: "Algorithms",
+question: "Binary Search time complexity?",
+options: ["O(n)", "O(log n)", "O(n log n)", "O(1)"],
+answer: "O(log n)"
+},
+
+{
+id: 14,
+level: "hard",
+subject: "DBMS",
+question: "Primary key is?",
+options: [
+"Unique identifier",
+"Duplicate key",
+"Foreign key",
+"None"
+],
+answer: "Unique identifier"
+},
+
+{
+id: 15,
+level: "hard",
+subject: "Operating System",
+question: "Deadlock occurs when?",
+options: [
+"Mutual exclusion",
+"Hold and wait",
+"No preemption",
+"All of these"
+],
+answer: "All of these"
+},
+
+{
+id: 16,
+level: "hard",
+subject: "Computer Networks",
+question: "Which layer handles routing?",
+options: [
+"Transport layer",
+"Network layer",
+"Data link layer",
+"Application layer"
+],
+answer: "Network layer"
+},
+
+{
+id: 17,
+level: "hard",
+subject: "Data Structures",
+question: "Stack overflow occurs when?",
+options: [
+"Stack empty",
+"Stack full",
+"Memory free",
+"None"
+],
+answer: "Stack full"
+},
+
+{
+id: 18,
+level: "hard",
+subject: "Algorithms",
+question: "Worst case of Quick Sort?",
+options: [
+"O(n²)",
+"O(n log n)",
+"O(log n)",
+"O(n)"
+],
+answer: "O(n²)"
+},
+
+{
+id: 19,
+level: "hard",
+subject: "DBMS",
+question: "Which normal form removes transitive dependency?",
+options: ["1NF", "2NF", "3NF", "BCNF"],
+answer: "3NF"
+},
+
+{
+id: 20,
+level: "hard",
+subject: "Operating System",
+question: "Which memory is fastest?",
+options: [
+"RAM",
+"Cache",
+"Hard Disk",
+"ROM"
+],
+answer: "Cache"
+}
+
+];

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Adaptive Assessment</title>
+
+<style>
+
+body{
+    margin:0;
+    font-family:Arial;
+    background: linear-gradient(135deg,#667eea,#764ba2);
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color:white;
+}
+
+.box{
+    background:white;
+    color:black;
+    padding:30px;
+    border-radius:15px;
+    width:320px;
+    text-align:center;
+    box-shadow:0 10px 25px rgba(0,0,0,0.3);
+}
+
+h1{
+    margin-bottom:10px;
+    color:#667eea;
+}
+
+input{
+    width:100%;
+    padding:12px;
+    margin:10px 0;
+    border-radius:8px;
+    border:1px solid gray;
+}
+
+button{
+    width:100%;
+    padding:12px;
+    background:#667eea;
+    color:white;
+    border:none;
+    border-radius:8px;
+    font-size:16px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#5a67d8;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="box">
+
+<h1>Adaptive Assessment</h1>
+
+<p>AI Based Online Test</p>
+
+<input type="text" id="name" placeholder="Enter your name">
+
+<button onclick="start()">Start Test</button>
+
+</div>
+
+<script>
+
+function start() {
+    var name = document.getElementById("name").value;
+
+    if(name == "") {
+        alert("Enter name");
+        return;
+    }
+
+    localStorage.setItem("student", name);
+    window.location = "test.html";
+}
+
+</script>
+
+</body>
+</html>
